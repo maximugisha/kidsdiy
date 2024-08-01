@@ -1,0 +1,305 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    <!-- Left Sidebar -->
+    <div class="left-sidebar">
+        <h2></h2>
+
+        <!-- <div class="card">
+            <h6 class="text-center">Live Classes</h6>
+            <table class="table-responsive">
+                <thead>
+                <tr>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for schedule in schedules %}
+                    <tr>
+                        <td>{{ schedule.title }}</td>
+                        <td>{{ schedule.start_date|date:"D, H:i" }}</td>
+                        <td>
+                            <a href="{% url 'home' %}meet/{{ schedule.room_id }}" class="btn-group-sm">Join</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div> -->
+        <div class="card">
+            <h6 class="text-center">I'm Following</h6>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        {#            {% if logged_in_user %}#}
+        {#                <p>Welcome, {{ logged_in_user.first_name }}!</p>#}
+        {#            {% else %}#}
+        {#                <p>Welcome, Guest!</p>#}
+        {#            {% endif %}#}
+
+        <h2 class="text-center">Kids DIY</h2>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <a class="btn btn-primary" href="{% url 'create_post' %}">Create A Post</a>
+            </div>
+        </div>
+
+        <hr>
+        <div class="card-container">
+            {% for post in posts %}
+                <div class="card mb-4">
+                    <!-- Card content -->
+                    <!-- Header: Author's profile pic and options ellipsis -->
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <!-- Author's profile pic with text -->
+                        <div class="author-profile-pic">
+                            {% if post.author.profile_picture %}
+                                <img src="{{ post.author.profile_picture.url }} " alt="Author Profile Pic"
+                                     class="rounded-circle mr-2"
+                                     style="width: 40px; height: 40px;">
+                            {% else %}
+                                <img src="{% static 'no_profile_Pic.jpeg' %}" alt="Default Profile"
+                                     class="rounded-circle mr-2"
+                                     style="width: 40px; height: 40px;">
+                            {% endif %}
+
+                            <span><strong>{{ post.author.first_name }}</strong> via <strong>{{ post.author.organization }}</strong></span>
+                        </div>
+                        <!-- Options ellipsis -->
+                        <div class="options-dropdown">
+                            <div class="options-ellipsis">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="post-dropdown-content">
+                                <a href="{% url 'post_detail' post.id %}">View</a>
+                                <!-- <a href="#">Edit</a> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Body: Post content and attachment -->
+                    <div class="card-body">
+                        <!-- Post content -->
+                        <p class="card-text">{{ post.content }}</p>
+
+                        <!-- Attachment (if any) -->
+                        {% if post.attachments %}
+                            <div class="attachment-grid">
+                                {% for attachment in post.attachments.all %}
+                                    {% if forloop.counter <= 4 %}
+                                        {# Limit to maximum of 4 attachments for a 2 by 2 grid #}
+                                        {% if attachment.file_extension == '.mp4' %}
+                                            <!-- Video Player -->
+                                            <div class="attachment-item">
+                                                <video controls>
+                                                    <source src="{{ attachment.file.url }}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            </div>
+                                        {% else %}
+                                            <!-- Image -->
+                                            <div class="attachment-item">
+                                                <img src="{{ attachment.file.url }}" alt="img">
+                                            </div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
+                        <!-- Likes and comments count -->
+                        <div class="likes-comments-count">
+                            <!-- Like icon -->
+                            <a href="{% url 'like_post' post.id %}">
+                                <i class="fas fa-thumbs-up like-icon"></i>
+                            </a>
+                            <span class="like-count">{{ post.get_likes_count }}</span>
+
+                            <!-- Dislike icon -->
+                            <!-- <a href="{% url 'dislike_post' post.id %}">
+                                <i class="fas fa-thumbs-down dislike-icon"></i>
+                            </a>
+                            <span class="dislike-count">{{ post.get_dislikes_count }}</span> -->
+
+                            <!-- Comment icon -->
+                            <a href="{% url 'comment' post.id %}">
+                                <i class="fas fa-comment comment-icon"></i>
+                            </a>
+                            <span class="comment-count">{{ post.get_comments_count }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Footer: Most recent comments -->
+                    <div class="card-footer">
+                        <!-- Most recent comments -->
+                        <div class="recent-comments">
+                            {% for comment in post.post_comments.all|slice:"0:2" %}
+                                <div class="author-profile-pic">
+                                    {% if comment.user.profile_picture %}
+                                        <img src="{{ comment.user.profile_picture.url }} " alt="Author Profile Pic"
+                                             class="rounded-circle mr-2"
+                                             style="width: 40px; height: 40px;">
+                                    {% else %}
+                                        <img src="{% static 'no_profile_Pic.jpeg' %}" alt="Default Profile"
+                                             class="rounded-circle mr-2"
+                                             style="width: 40px; height: 40px;">
+                                    {% endif %}
+                                    <span>{{ comment.user.username }} - {{ comment.created_at }} </span>
+                                </div>
+                                <div class="comment">
+                                    {{ comment.content }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="right-sidebar">
+        <h2></h2>
+        <div class="card">
+            <h6>Co-creation Resources</h6>
+            {% for resource in resources %}
+                <div class="row">
+                    <div class="col-2">
+                        <div class="author-profile-pic">
+                            {% if resource.author.profile_picture %}
+                                <img src="{{ resource.author.profile_picture.url }} " alt="Author Profile Pic"
+                                     class="rounded-circle mr-2"
+                                     style="width: 30px; height: 30px;">
+                            {% else %}
+                                <img src="{% static 'no_profile_Pic.jpeg' %}" alt="Default Profile"
+                                     class="rounded-circle mr-2" style="width: 30px; height: 30px;">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col">
+                        <span><strong>{{ resource.author.first_name }}</strong> shared a {{ resource.type.name }} titled <a
+                                href="{% url 'view_resource' resource.id %}">{{ resource.title }}</a></span>
+                        <p>{{ resource.created_at|timesince }} ago</p>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="row">
+                <div class="col-auto">
+                    <a class="btn btn-secondary" href="{% url 'list_resources' %}"><i class="fas fa-eye"></i> View</a>
+                </div>
+                <div class="col-md-auto"></div>
+                <div class="col-auto">
+                    <a class="btn btn-primary" href="{% url 'create_resource' %}"><i class="fas fa-plus-circle"></i> Add</a>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+        <div class="card mb-4">
+            <h6>Recently Active</h6>
+            <div class="author-profile-pics">
+                {% for author in authors %}
+                    <div class="author-profile-pic">
+                        <div class="author-pic-container">
+                            {% if author.profile_picture %}
+                                <img src="{{ author.profile_picture.url }} " alt="Author Profile Pic"
+                                     class="rounded-circle mr-2 author-pic"
+                                     style="width: 40px; height: 40px;">
+                            {% else %}
+                                <img src="{% static 'no_profile_Pic.jpeg' %} " alt="Author Profile Pic"
+                                     class="rounded-circle mr-2 author-pic"
+                                     style="width: 40px; height: 40px;">
+                            {% endif %}
+                            <span class="author-name">{{ author.user.first_name }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="card mb-4">
+            <h6>Creative Spaces</h6>
+            {% for org in organizations %}
+                <div class="org-profile-pic">
+                    <div class="org-pic-container">
+                        {% if org.profile_pic %}
+                            <img src="{{ org.profile_pic.url }}" alt="Org Profile Pic"
+                                 class="rounded-circle mr-2 author-pic"
+                                 style="width: 40px; height: 40px;">
+                        {% else %}
+                            <img src="{% static 'no_profile_Pic.jpeg' %}" alt="Default Profile"
+                                 class="rounded-circle mr-2 author-pic" style="width: 40px; height: 40px;">
+                        {% endif %}
+                        <span class="org-info">
+                        <span class="org-name">{{ org.name }}</span>
+                        <span class="org-members">{{ org.user_organization.count }} Members</span>
+                        <button type="button" class="btn btn-info btn-sm">Join</button>
+                        </span>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Like icon click handler
+            $('.like-link').click(function (e) {
+                e.preventDefault();
+                $(this).toggleClass('liked');
+            });
+
+            // Dislike icon click handler
+            $('.dislike-link').click(function (e) {
+                e.preventDefault();
+                $(this).toggleClass('disliked');
+            });
+
+            // Comment icon click handler (no color change, just example)
+            $('.comment-link').click(function (e) {
+                // You can add your comment logic here
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ellipsisIcons = document.querySelectorAll('.options-ellipsis');
+
+            ellipsisIcons.forEach(function (ellipsis) {
+                ellipsis.addEventListener('click', function (event) {
+                    var dropdownContent = this.nextElementSibling;
+                    if (dropdownContent.style.display === 'block') {
+                        dropdownContent.style.display = 'none';
+                    } else {
+                        // Hide all other dropdowns before showing the clicked one
+                        document.querySelectorAll('.post-dropdown-content').forEach(function (content) {
+                            content.style.display = 'none';
+                        });
+                        dropdownContent.style.display = 'block';
+                    }
+                    event.stopPropagation(); // Prevent the window click event from being triggered
+                });
+            });
+
+            // Close dropdowns when clicking outside of them
+            window.addEventListener('click', function (event) {
+                document.querySelectorAll('.post-dropdown-content').forEach(function (content) {
+                    content.style.display = 'none';
+                });
+            });
+        });
+
+    </script>
+{% endblock %}

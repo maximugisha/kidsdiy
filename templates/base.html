@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %} {{ title }} - Kids DIY{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+    {% block extra_css %}
+    {% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+<body>
+
+<header>
+    <div class="container">
+        <div class="logo">
+            <img src="{% static 'img/creativekid.png' %}" alt="Logo" class="profile-img">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a>
+                </li>
+                <!-- <li><a href="{% url 'schedules' %}"
+                       class="{% if request.path == '/schedules/' %}active{% endif %}">Classes</a></li> -->
+                <li><a href="{% url 'list_resources' %}"
+                       class="{% if request.path == '/resources/' %}active{% endif %}">Resources</a></li>
+            <li><a href="{% url 'live' %}" class="{% if request.path == '/live/' %}active{% endif %}">Kids Live</a>
+            </ul>
+        </div>
+        <div class="icons">
+            <!-- <div class="icon"><i class="fa fa-search"></i></div>
+            <div class="icon"><i class="fas fa-grip-lines-vertical"></i></div>
+            <div class="icon"><i class="fa fa-envelope"></i></div>
+            <div class="icon"><i class="fa fa-bell"></i></div>
+            <div class="icon"><i class="fa fa-shopping-cart"></i></div> -->
+            <div class="user-profile">
+                <strong>{{ request.user.first_name }}</strong>
+                {% if request.user.account.profile_picture %}
+                    <img src="{{ request.user.account.profile_picture.url }}" alt="User Profile" class="profile-img">
+                {% else %}
+                    <img src="{% static 'no_profile_Pic.jpeg' %}" alt="Default Profile"
+                         class="profile-img">
+                {% endif %}
+                <div class="dropdown-content">
+                    <a href="{% url 'profile' %}"><i class="fa fa-user"></i> Profile</a>
+                    <!-- <a href="#"><i class="fa fa-cog"></i> Settings</a> -->
+                    <a href="{% url 'user_logout' %}"><i class="fa fa-sign-out"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="main-container">
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %} style="background-color: #e6ffe6; padding: 10px; border-radius: 5px; margin-bottom: 5px;">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+    {% block content %}{% endblock %}
+</main>
+
+
+<footer>
+    <hr> <!-- Horizontal rule -->
+    <div class="footer-content">
+        <p>&copy; 2024 Kids DIY. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- Bootstrap JavaScript -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JavaScript -->
+<script src="{% static 'js/script.js' %}"></script>
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

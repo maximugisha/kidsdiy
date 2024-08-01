@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+    <style>
+        /* Center the card vertically and horizontally */
+        .centered-card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Ensure card takes up full height of viewport */
+        }
+
+        /* Give the card a shadow effect */
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container centered-card">
+        <div class="card p-5">
+            <h1>Create Resource</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="title">Title</label><input class="form-control" type="text"
+                                                           id="title" {{ form.title }}
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Type</label>
+                    <select id="type" class="form-control" {{ form.type }} </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="content">Content</label><textarea class="form-control" rows="3"
+                                                                  id="content" {{ form.content }}
+                </div>
+
+                <div class="form-group">
+                    <label for="attachment">Attachment</label>
+                    <input type="file" class="form-control-file" id="attachment" name="attachment" required>
+                </div>
+                <div class="form-group">
+                    <label for="categories">Categories</label>
+                    <select class="form-control" id="categories" multiple {{ form.categories }} </select>
+                </div>
+                <div class="form-group">
+                    <label for="audience">Audience</label>
+                    <select id="audience" class="form-control" {{ form.audience }} </select>
+                </div>
+                <button type="submit" class="btn btn-secondary">Create</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% load static %}
+
+<!DOCTYPE html>  
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Agrogen | Verify your e-mail</title>
+        <link rel = "stylesheet" id = "styles" href = "{% static 'dark/verify_email_page.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    </head>
+    <body>
+        <div id = "navbar">
+            <h1>Agrogen</h1>
+        </div>
+
+        <h2>Hello user please verify your e-mail...</h2>
+        <p style = "max-width: 300px;">Please click on the link that has been sent to your e-mail
+            to verify it and continue...
+        </p>
+        <img src = "{% static 'mail_sent.svg' %}"/>
+        <p class = "footer" style = "color: rgba(0, 0, 0, 0.653); font-size: 13px;"><i class = "far fa-copyright"></i> 2022 | Agrogen | All Rights Reserved.</p>
+    </body>
+</html>

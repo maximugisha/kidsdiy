@@ -1,0 +1,15 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Test page 1</title>
+        <link rel = "stylesheet" href = "{% static 'test.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+	    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script src = "{% static 'test.js' %}" defer></script>
+    </head>
+    <body>
+        <div id = "divone"></div>
+    </body> 
+</html> 

@@ -1,0 +1,57 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Agrogen | Home</title>
+        <link rel="shortcut icon" href="{% static 'selfie.svg' %}" type="image/svg"/>
+        <link id = "styles" rel = "stylesheet" href = "{% static 'dark/home.css' %}" type="text/css"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}" type="text/css"/>
+        <script src = "{% static 'home.js' %}" type = "text/javascript" defer></script>
+    </head>
+    <body oncontextmenu="return false">
+        <div id = "navbar">
+            <h1 style = "font-family: 'Brush Script MT', cursive;">Agrogen</h1>
+            <li class="nav-item">
+                <a style="font-family: 'Product Sans', cursive;" class="nav-link" href="{% url 'home' %}">DIY</a>
+            </li>
+            <button onclick = "options()"><i class = "fas fa-bars"></i></button>
+            {% if profile_picture %}
+            <img src = "{{ profile_picture.url }}"/>
+            {% else %}
+            <img src="{% static 'no_profile_Pic.jpeg' %}" alt="Default Profile"
+                            class="rounded-circle mr-2"
+                            style="width: 40px; height: 40px;">
+            {% endif %}
+        </div>
+        <div id = "options">
+            <button onclick = "settings()"><i class = "fas fa-user"></i> Your profile</button>
+            <button onclick = "recorded_meetings()"><i class = "fas fa-record-vinyl"></i> Recorded meetings</button>
+            <button onclick = "logout()" style = "border: none;"><i class = "fas fa-sign-out-alt"></i> Logout</button>
+        </div> 
+        <div id = "container">
+            <div id = "divone">
+                <h2>Vritual learning platform</h2>
+                <p class = "header">Learn from anywhere, get the best classroom experience from anywhere all over
+                        the globe at a location of your convenience
+                </p>
+                <button onclick = "start_meeting(this)" class = "start"><i class = "fas fa-link"></i> Start a meeting</button>
+                <div class = "join">
+                    <form style = "flex-direction: row;" onsubmit = "join_meeting(event)">
+                        <input type = "text" oninput = "check_passcode(this)" onfocus="input_focus(this)" placeholder = "Enter meeting passcode" onblur = "input_blur(this)" required/>
+                        <button type = "submit">Join</button>
+                    </form>
+                </div>
+                <p style = "font-size: 25px; color: grey; font-family: 'Brush Script MT', cursive; margin: 0; margin-top: 25px; align-self: center;">Virtual learning</p>
+            </div>
+            <div id = "divtwo">
+                <img src = "{% static 'selfie.svg' %}"/>
+                <p>Quality classrooms</p>
+            </div>
+        </div>
+        <p class = "footer"><i class = "far fa-copyright"></i> 2023 | Agrogen | All Rights Reserved.</p>
+        <p id = "notification">Meeting not found</p>
+    </body>
+</html>

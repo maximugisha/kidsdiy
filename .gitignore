@@ -1,0 +1,11 @@
+venv
+.env
+env
+.idea
+__pycache__
+static_files
+media
+
+.docker-env
+settings.ini
+db.sqlite3

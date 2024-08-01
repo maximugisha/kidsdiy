@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for post in posts %}
+        <h6>{{ post.title }}</h6>
+        <p>{{ post.content }}</p>
+        <p>{{ post.author }}</p>
+        <p>{{ post.created_at }}</p>
+        <a class="btn-group-sm" href="{%  url 'post_detail' post.id %}">View</a>
+    {% endfor %}
+
+{% endblock %}

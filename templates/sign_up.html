@@ -1,0 +1,34 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Agrogen | sign up</title>
+        <link rel = "stylesheet" href = "{% static 'dark/sign_up.css' %}"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script src = "{% static 'sign_up.js' %}" defer></script>
+    </head>
+    <body>
+        <div id = "navbar">
+            <h1>Agrogen</h1>
+        </div>
+        <div class = "holder">
+            <h2>Create an account here</h2>
+            <p>Enter your names here both first and last name that will help other users
+                to identify you in meeting sessions...
+            </p>
+            <form method = "POST" autocomplete="off" id = "form">
+                {% csrf_token %}
+                <input type = "text" placeholder = "Enter first name" name = "first_name" autofocus required/>
+                <input type = "text" placeholder = "Enter last name" name = "last_name" required/>
+                <input type = "email" name = "email" placeholder = "Enter your e-mail" required/>
+                <input type = "password" min = "8" max = "32" name = "password_one" placeholder = "Enter password here" required/>
+                <input type = "password" min = "8" max = "32" name = "password_two" placeholder = "Confirm password" required/>
+                <button type = "submit">Submit</button>
+            </form>
+        </div>
+        <p class = "footer" style = "color: rgba(0, 0, 0, 0.653); font-size: 13px;"><i class = "far fa-copyright"></i> 2022 | Agrogen | All Rights Reserved.</p>
+    </body>
+</html>

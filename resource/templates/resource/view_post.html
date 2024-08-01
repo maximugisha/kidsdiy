@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="card-body ml-5 mr-3">
+    <h5>{{ post.title }}</h5>
+
+    <!-- Likes and comments count -->
+        <div class="likes-comments-count">
+            <!-- Like icon -->
+            <a href="{% url 'like_post' post.id %}">
+                <i class="fas fa-thumbs-up like-icon"></i>
+            </a>
+            <span class="like-count">{{ post.get_likes_count }}</span>
+
+            <!-- Dislike icon -->
+            <a href="{% url 'dislike_post' post.id %}">
+                <i class="fas fa-thumbs-down dislike-icon"></i>
+            </a>
+            <span class="dislike-count">{{ post.get_dislikes_count }}</span>
+
+            <!-- Comment icon -->
+            <a href="{% url 'comment' post.id %}">
+                <i class="fas fa-comment comment-icon"></i>
+            </a>
+            <span class="comment-count">{{ post.get_comments_count }}</span>
+        </div>
+    <hr>
+        <!-- Post content -->
+        <p class="card-text">{{ post.content }}</p>
+        <!-- Attachment (if any) -->
+        {% if post.attachments %}
+            <div class="attachment-grid" style="margin-bottom: 20px;">
+                {% for attachment in post.attachments.all %}
+                    {% if forloop.counter <= 4 %}
+                        {# Limit to maximum of 4 attachments for a 2 by 2 grid #}
+                        {% if attachment.file_extension == '.mp4' %}
+                            <!-- Video Player -->
+                            <div class="attachment-item">
+                                <video controls>
+                                    <source src="{{ attachment.file.url }}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        {% else %}
+                            <!-- Image -->
+                            <div class="attachment-item">
+                                <img src="{{ attachment.file.url }}"
+                                     style="width: 500px; height: auto; display: -moz-grid-line" alt="img">
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="card-responsive">
+            <!-- Most recent comments -->
+            <div class="recent-comments">
+                {% for comment in post.post_comments.all %}
+                    <div class="author-profile-pic">
+                        {% if comment.user.profile_picture %}
+                            <img src="{{ comment.user.profile_picture.url }} " alt="Author Profile Pic"
+                                 class="rounded-circle mr-2"
+                                 style="width: 20px; height: 20px;">
+                        {% else %}
+                            <img src="{% static 'no_profile_Pic.jpeg' %}" alt="Default Profile"
+                                 class="rounded-circle mr-2"
+                                 style="width: 20px; height: 20px;">
+                        {% endif %}
+                        <span>{{ comment.user.username }} - {{ comment.created_at|date:"h:i A" }} </span>
+                    </div>
+                    <div class="comment">
+                        {{ comment.content }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

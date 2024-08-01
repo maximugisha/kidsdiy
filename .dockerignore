@@ -1,0 +1,11 @@
+# __pycache__
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+db.sqlite3
+.idea
+.env
+.docker-env

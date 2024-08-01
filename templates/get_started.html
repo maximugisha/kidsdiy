@@ -1,0 +1,24 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>Agrogen | Get started</title>
+        <link rel="shortcut icon" href="{% static 'selfie.svg' %}" type="image/svg"/>
+        <link id = "styles" rel = "stylesheet" href = "{% static 'dark/get_started.css' %}" type="text/css"/>
+        <link rel = "stylesheet" href = "{% static 'fonts/css/all.min.css' %}" type="text/css"/>
+    </head>
+    <body oncontextmenu = "return false">
+        <div id = "navbar">
+            <h1>Agrogen</h1>
+        </div>
+
+        <h2>Hello {{request.user.first_name}}, Thank you for Verifying...</h2>
+        <p style = "max-width: 300px;">Welcome to limitless possibilities
+        </p>
+        <img src = "{% static 'meeting.svg' %}"/>
+        <a href = "{% url 'home' %}">Get started</a>
+    </body>
+</html>

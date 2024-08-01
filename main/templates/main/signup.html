@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container card">
+    <h2>Sign Up</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <h3>User Details</h3>
+            {{ user_form.as_p }}
+        </div>
+        <div class="form-group">
+            <h3>Add to Profile</h3>
+            {{ account_info_form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+</div>
+{% endblock %}
