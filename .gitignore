@@ -1,0 +1,11 @@
+.venv
+.env
+.idea
+staticfiles
+**/migrations/__pycache__/**
+.env.prod
+.docker-env
+.pyc
+*.pyo
+**__pycache__/**
+__pycache__
