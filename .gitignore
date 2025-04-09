@@ -9,3 +9,5 @@ staticfiles
 *.pyo
 **__pycache__/**
 __pycache__
+localhost-key.pem
+localhost.pem

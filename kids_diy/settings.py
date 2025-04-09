@@ -17,7 +17,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "kidsdiy.org").split(",")
-CSRF_TRUSTED_ORIGINS =  os.getenv("CSRF_TRUSTED_ORIGINS", "kidsdiy.org").split(",")
+CSRF_TRUSTED_ORIGINS =  os.getenv("CSRF_TRUSTED_ORIGINS", "http://kidsdiy.org").split(",")
 
 # Application definition
 INSTALLED_APPS = [
@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # Third-party apps
+    "django_extensions",
     "crispy_forms",
     "crispy_bootstrap5",
     "channels",  # For WebSocket support (video conferencing)
