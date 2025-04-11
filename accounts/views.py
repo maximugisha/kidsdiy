@@ -52,10 +52,10 @@ def logout_view(request):
 
 @login_required
 def profile(request, username=None):
-    if username:
-        user = get_object_or_404(User, username=username)
-    else:
+    if username is None:
         user = request.user
+    else:
+        user = get_object_or_404(User, username=username)
 
     is_following = False
     if request.user.is_authenticated and user != request.user:
@@ -72,6 +72,10 @@ def profile(request, username=None):
 
 @login_required
 def update_profile(request):
+    # Add debugging
+    print(f"User is authenticated: {request.user.is_authenticated}")
+    print(f"Current user: {request.user.username}")
+
     if request.method == "POST":
         form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
@@ -81,7 +85,6 @@ def update_profile(request):
     else:
         form = UserUpdateForm(instance=request.user)
     return render(request, "accounts/update_profile.html", {"form": form})
-
 
 @login_required
 def follow_toggle(request, user_id):

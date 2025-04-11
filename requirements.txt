@@ -7,7 +7,7 @@ crispy-bootstrap5==0.7
 # Database
 psycopg2-binary==2.9.9
 dj-database-url==2.1.0
-
+django-widget-tweaks
 # Authentication
 django-allauth==0.57.0
 

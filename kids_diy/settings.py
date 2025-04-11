@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "channels",  # For WebSocket support (video conferencing)
+    "widget_tweaks",
     # Project apps
     "accounts",
     "posts",
