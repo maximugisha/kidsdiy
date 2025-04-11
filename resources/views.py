@@ -10,13 +10,49 @@ from .models import Resource
 
 @login_required
 def resource_list(request):
-    # Filter resources by user's organization
-    resources = Resource.objects.filter(
+    # Get the requested resource type from query parameters
+    resource_type = request.GET.get('type')
+
+    # Start with all resources from user's organization
+    resources = Resource.objects.filter(organization=request.user.organization)
+
+    # Apply filter if a resource type was specified
+    if resource_type:
+        resources = resources.filter(resource_type=resource_type)
+
+    # Order by creation date (newest first)
+    resources = resources.order_by("-created_at")
+
+    # Count resources by type for the sidebar
+    document_count = Resource.objects.filter(
+        organization=request.user.organization,
+        resource_type='document'
+    ).count()
+
+    presentation_count = Resource.objects.filter(
+        organization=request.user.organization,
+        resource_type='presentation'
+    ).count()
+
+    video_count = Resource.objects.filter(
+        organization=request.user.organization,
+        resource_type='video'
+    ).count()
+
+    # For "other" type, exclude known types
+    other_count = Resource.objects.filter(
         organization=request.user.organization
-    ).order_by("-created_at")
+    ).exclude(
+        resource_type__in=['document', 'presentation', 'video']
+    ).count()
 
     context = {
         "resources": resources,
+        "document_count": document_count,
+        "presentation_count": presentation_count,
+        "video_count": video_count,
+        "other_count": other_count,
+        "current_type": resource_type,  # Pass current filter to template
     }
     return render(request, "resources/resource_list.html", context)
 

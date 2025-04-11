@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload Resource{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h3 class="mb-0">Upload New Resource</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                            <div class="text-danger">
+                                {% for error in form.title.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
+                            {{ form.description }}
+                            {% if form.description.errors %}
+                            <div class="text-danger">
+                                {% for error in form.description.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            <div class="form-text">Provide a brief description of the resource</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.file.id_for_label }}" class="form-label">File</label>
+                            {{ form.file }}
+                            {% if form.file.errors %}
+                            <div class="text-danger">
+                                {% for error in form.file.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                            <div class="form-text">Upload a PDF, document, presentation, or other learning material</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.resource_type.id_for_label }}" class="form-label">Resource Type</label>
+                            {{ form.resource_type }}
+                            {% if form.resource_type.errors %}
+                            <div class="text-danger">
+                                {% for error in form.resource_type.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.subject.id_for_label }}" class="form-label">Subject</label>
+                            {{ form.subject }}
+                            {% if form.subject.errors %}
+                            <div class="text-danger">
+                                {% for error in form.subject.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="{{ form.grade_level.id_for_label }}" class="form-label">Grade Level</label>
+                            {{ form.grade_level }}
+                            {% if form.grade_level.errors %}
+                            <div class="text-danger">
+                                {% for error in form.grade_level.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'resource_list' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to Resources
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-upload"></i> Upload Resource
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add Bootstrap form classes
+        const formControls = document.querySelectorAll('input, select, textarea');
+        formControls.forEach(control => {
+            if (!control.classList.contains('form-check-input')) {
+                control.classList.add('form-control');
+            }
+        });
+
+        // Add specific classes to select elements
+        const selectElements = document.querySelectorAll('select');
+        selectElements.forEach(select => {
+            select.classList.add('form-select');
+        });
+
+        // Add Bootstrap's text-area specific class
+        const textareas = document.querySelectorAll('textarea');
+        textareas.forEach(textarea => {
+            textarea.classList.add('form-control');
+            textarea.rows = 4;
+        });
+
+        // Show file name when selected
+        const fileInput = document.getElementById('{{ form.file.id_for_label }}');
+        if (fileInput) {
+            fileInput.addEventListener('change', function() {
+                const fileName = this.files[0]?.name || 'No file chosen';
+                const fileLabel = document.createElement('div');
+                fileLabel.classList.add('mt-2', 'text-muted');
+                fileLabel.textContent = `Selected file: ${fileName}`;
+
+                // Remove previous label if exists
+                const oldLabel = this.parentNode.querySelector('.text-muted:not(.form-text)');
+                if (oldLabel) {
+                    oldLabel.remove();
+                }
+
+                this.parentNode.appendChild(fileLabel);
+            });
+        }
+    });
+</script>
+{% endblock %}

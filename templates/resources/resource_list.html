@@ -99,22 +99,22 @@
                 </div>
                 <div class="card-body">
                     <div class="list-group">
-                        <a href="{% url 'resource_list' %}" class="list-group-item list-group-item-action active">All Resources</a>
-                        <a href="?type=document" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="{% url 'resource_list' %}" class="list-group-item list-group-item-action {% if not current_type %}active{% endif %}">All Resources</a>
+                        <a href="?type=document" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if current_type == 'document' %}active{% endif %}">
                             Documents
-                            <span class="badge bg-primary rounded-pill">{{ document_count }}</span>
+                            <span class="badge {% if current_type == 'document' %}bg-white text-primary{% else %}bg-primary{% endif %} rounded-pill">{{ document_count }}</span>
                         </a>
-                        <a href="?type=presentation" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="?type=presentation" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if current_type == 'presentation' %}active{% endif %}">
                             Presentations
-                            <span class="badge bg-success rounded-pill">{{ presentation_count }}</span>
+                            <span class="badge {% if current_type == 'presentation' %}bg-white text-success{% else %}bg-success{% endif %} rounded-pill">{{ presentation_count }}</span>
                         </a>
-                        <a href="?type=video" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="?type=video" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if current_type == 'video' %}active{% endif %}">
                             Videos
-                            <span class="badge bg-info rounded-pill">{{ video_count }}</span>
+                            <span class="badge {% if current_type == 'video' %}bg-white text-info{% else %}bg-info{% endif %} rounded-pill">{{ video_count }}</span>
                         </a>
-                        <a href="?type=other" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <a href="?type=other" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center {% if current_type == 'other' %}active{% endif %}">
                             Other
-                            <span class="badge bg-secondary rounded-pill">{{ other_count }}</span>
+                            <span class="badge {% if current_type == 'other' %}bg-white text-secondary{% else %}bg-secondary{% endif %} rounded-pill">{{ other_count }}</span>
                         </a>
                     </div>
                 </div>
